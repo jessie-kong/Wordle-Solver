@@ -6,9 +6,9 @@ import components.simplewriter.SimpleWriter;
 import components.simplewriter.SimpleWriter1L;
 
 /**
- * Use this program to assist you in a game of Wordle! Input your guess and the
- * game's response, and the program will output remaining possibilities, as well
- * as the next best guess (in hopes of solving the game quickly). 
+ * Assists the user in a game of Wordle! Asks the player for their guess and
+ * the game's response to output some remaining possibilities, as well as the
+ * next best guess (which is expected to eliminate the most amount of words). 
  *
  * @author Jessie Kong
  *

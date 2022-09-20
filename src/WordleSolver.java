@@ -346,10 +346,12 @@ public final class WordleSolver {
         int maxAvg = -1;
         int avg;
 
+        // Iterate through all possible words
         for (int i = 0; i < wordsLeftArray.length; i++) {
             String possibleGuess = wordsLeftArray[i];
+            // Calculate number of words the guess is expected to eliminate
             avg = avgWordsEliminated(possibleGuess, wordsLeft);
-            //out.println(avg);
+            // Continually update best guess
             if (avg > maxAvg) {
                 maxAvg = avg;
                 bestGuess = possibleGuess;
@@ -383,9 +385,9 @@ public final class WordleSolver {
         // Keep track of number of guesses
         int guessNum = 1;
 
-        // DICTIONARY
+        // List of five-letter words including words outside Wordle's own bank
         SimpleReader dicWords = new SimpleReader1L("data/dictionaryWords.txt");
-        // Open allWords file
+        // allWords file will include Wordle's five-letter words only
         SimpleReader allWords = new SimpleReader1L("data/allWords.txt");
         String line = allWords.nextLine();
         // Create separator set
@@ -393,14 +395,14 @@ public final class WordleSolver {
         Set<Character> sepSet = new Set1L<Character>();
         generateElements(sepStr, sepSet);
 
-        // Old words - populate with past Wordle words
+        // Old words - populate with past Wordle solutions (if wordleDay > 0)
         Set<String> oldWords = new Set1L<String>();
-        // New words
+        // Unused Wordle solutions
         Set<String> wordsLeft = new Set1L<String>();
         // All five-letter words - include words outside of the Wordle word bank
         Set<String> allFiveLetterWords = new Set1L<String>();
 
-        // Put this in function getPossibleWords();
+        // Populate all Sets
         int pos = 0;
         while (pos < line.length()) {
             // Token will either be a word or separator
@@ -413,11 +415,13 @@ public final class WordleSolver {
                 } else {
                     wordsLeft.add(token);
                 }
+                // Add all Wordle words to biggest Set
                 allFiveLetterWords.add(token);
             }
             pos += token.length();
         }
 
+        // Include additional words from dictionary in biggest Set
         while (!dicWords.atEOS()) {
             String token = dicWords.nextLine();
             if (!allFiveLetterWords.contains(token)) {
@@ -430,6 +434,7 @@ public final class WordleSolver {
                 "Hello! Welcome to the Wordle Solver. Enter your first guess below...\n");
         out.println("BEST NEXT GUESS: raise");
 
+        // Continue until one possibe solution remains
         while (wordsLeft.size() > 1) {
             int eliminated = 0;
             // Ask for word
@@ -445,19 +450,15 @@ public final class WordleSolver {
             out.println("\n*** Calculating ***\n");
             // Eliminate words using characters' hints
             eliminated = eliminateWords(word, status, wordsLeft);
+            // Print number of words eliminated and remaining possible solutions
             out.println(eliminated + " words eliminated.");
             printRemainingPossibilities(out, wordsLeft);
+            // Print next best guess (unless game was solved)
             if (wordsLeft.size() > 1) {
                 printBestNextGuess(wordsLeft, out);
             }
             guessNum++;
         }
-
-        /*
-         * Test every possible word and words remaining Find average number of
-         * guesses eliminated (1.0/wordsLeft.size * (# eliminated) Best word:
-         * highest avg
-         */
 
         // Print guesses used
         out.println("GUESSES NEEDED: " + guessNum);

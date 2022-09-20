@@ -378,7 +378,7 @@ public final class WordleSolver {
         SimpleReader in = new SimpleReader1L();
         SimpleWriter out = new SimpleWriter1L();
 
-        // Can increase, in case user would like eliminate past words
+        // Can increase, in case user would like to eliminate past solutions
         int wordleDay = 0;
         // Keep track of number of guesses
         int guessNum = 1;
